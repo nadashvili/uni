@@ -9,178 +9,244 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #00aeff;   /* indigo-500 */
-            --secondary-color: #6a00ff; /* purple-600 */
-            --background-color-body: #6366f1;
-            --background-color-body-gradient-from: #1e1e1e; /* indigo-500 */
-            --background-color-body-gradient-to: #000000;   /* purple-600 */
-
-            --card-background-color: #ffffff;
-            --card-border-color: #f3f4f6; /* gray-100 */
-
-            --text-primary-color: #111827;  /* gray-900 */
-            --text-secondary-color: #4b5563; /* gray-700 */
-            --text-muted-color: #6b7280;    /* gray-500 */
-            --text-accent-color: #4f46e5;   /* indigo-600 */
-
-            --button-bg-color: #f3f4f6;     /* gray-100 */
-            --button-text-color: #4b5563;   /* gray-600 */
-            --button-hover-bg-color: #e5e7eb; /* gray-200 */
-
-            --indicator-active-color: #6366f1; /* indigo-500 */
-            --indicator-inactive-color: #d1d5db; /* gray-300 */
+        @font-face {
+            font-family: 'MyFont';
+            src: url('bpg_nino_mtavruli_bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
         }
-@font-face {
-  font-family: 'MyFont';
-  src: url('bpg_nino_mtavruli_bold.ttf') format('truetype');
-  font-weight: 700; /* BOLD */
-  font-style: normal;
-}
 
-* {
-  font-family: 'MyFont';
-}
         body {
-            transition: background-color 0.5s ease;
-            background: linear-gradient(135deg, var(--background-color-body-gradient-from), var(--background-color-body-gradient-to));
+            font-family: 'MyFont', sans-serif;
+            background: linear-gradient(135deg, #1f2937 0%, #000000 100%);
+            color: #f9fafb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1.5rem;
         }
-        .slide {
-            display: none;
-            animation: fadeIn 0.5s ease-in-out;
+
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(107, 114, 128, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
-        .slide.active {
-            display: block;
+
+        .header {
+            padding: 2rem 1.5rem;
+            text-align: center;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .countdown-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            text-align: center;
+            padding: 1rem;
+            margin: 0 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .lesson-card {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            background-color: var(--card-background-color);
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
         }
-        .lesson-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1), 0 3px 5px rgba(0, 0, 0, 0.08);
-        }
-        .dot {
+
+        .nav-button {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 0.75rem;
+            border-radius: 9999px;
             transition: background-color 0.3s, transform 0.3s;
         }
+
+        .nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        .schedule-list {
+            padding: 0 1.5rem 1.5rem;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .lesson-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        
+        .lesson-card:hover {
+            transform: translateY(-4px);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .break-card {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #9ca3af;
+            font-size: 0.875rem;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .dot-indicators {
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            margin: 0 4px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
         .dot.active {
+            background-color: #818cf8;
             transform: scale(1.4);
         }
-
-        /* Tailwind კლასების გადაფარვა CSS ცვლადებით */
-        .bg-gradient-to-br {
-            background-image: linear-gradient(to bottom right, var(--background-color-body-gradient-from), var(--background-color-body-gradient-to));
-        }
-        .bg-gradient-to-r {
-            background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-        }
-        .bg-white { background-color: var(--card-background-color); }
-        .bg-gray-50 { background-color: var(--card-background-color); }
-        .bg-gray-100 { background-color: var(--button-bg-color); }
-        .bg-gray-200:hover { background-color: var(--button-hover-bg-color); }
-        .text-gray-500 { color: var(--text-muted-color); }
-        .text-gray-600 { color: var(--button-text-color); }
-        .text-gray-700 { color: var(--text-secondary-color); }
-        .text-gray-900 { color: var(--text-primary-color); }
-        .text-indigo-600 { color: var(--text-accent-color); }
-        .border-gray-100 { border-color: var(--card-border-color); }
-        .bg-indigo-500 { background-color: var(--indicator-active-color); }
-        .bg-gray-300 { background-color: var(--indicator-inactive-color); }
     </style>
 </head>
-<body class="bg-gradient-to-br min-h-screen flex flex-col items-center justify-center p-6">
-    <div class="w-full max-w-sm sm:max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden">
+<body>
 
-        <div class="text-center pt-8 pb-4 px-6 bg-gradient-to-r rounded-t-3xl">
-            
+    <div class="app-container">
+        
+        <div class="header">
+            <h1 class="text-3xl font-bold mb-1 text-white">ჩემი განრიგი</h1>
+            <p class="text-sm text-gray-400">საუნივერსიტეტო განრიგის აპლიკაცია</p>
         </div>
 
-        <div id="countdown-timer" class="text-center p-5 mx-6 -mt-6 bg-white rounded-2xl shadow-lg border border-gray-100">
-            <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide">მომდევნო ლექციამდე</p>
-            <p id="countdown-display" class="text-2xl font-extrabold text-indigo-600 mt-2">ლოდინი...</p>
+        <div class="countdown-card">
+            <p class="text-xs uppercase tracking-wide text-gray-400 font-semibold mb-2">მომდევნო ლექციამდე</p>
+            <p id="countdown-display" class="text-2xl font-bold text-indigo-400">ლოდინი...</p>
         </div>
 
-        <div class="relative px-6 mt-8">
-            <div class="flex justify-between items-center mb-4">
-                <button id="prev-btn" class="bg-gray-100 p-2 rounded-full shadow-md text-gray-600 hover:bg-gray-200 transition-colors duration-200">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                </button>
-                <h2 id="day-title" class="text-xl font-bold text-center text-indigo-600"></h2>
-                <button id="next-btn" class="bg-gray-100 p-2 rounded-full shadow-md text-gray-600 hover:bg-gray-200 transition-colors duration-200">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                </button>
-            </div>
-            
-            <div id="schedule-slides" class="flex flex-col space-y-4 pb-8">
-                </div>
-            
-            <div id="slide-indicators" class="flex justify-center space-x-2 mt-4 pb-6"></div>
+        <div class="navigation">
+            <button id="prev-btn" class="nav-button">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <h2 id="day-title" class="text-2xl font-bold text-center text-white"></h2>
+            <button id="next-btn" class="nav-button">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
         </div>
+
+        <div id="schedule-slides" class="schedule-list">
+        </div>
+        
+        <div id="slide-indicators" class="dot-indicators"></div>
+
     </div>
 
     <script>
         const schedule = {
             'ორშაბათი': [
-                { time: '13:00', title: 'ბიზნესის ადმინისტრირების საფუძვლები 1 (ბიზნესის გარემო)', professor: 'ლეილა ქადაგიშვილი', location: 'X კორპუსი/9 სართული/906' },
+                { time: '13:00 - 14:50', title: 'ბიზნესის ადმინისტრირების საფუძვლები 1 (ბიზნესის გარემო)', professor: 'ლეილა ქადაგიშვილი', location: 'X კორპუსი/9 სართული/906' },
             ],
             'სამშაბათი': [
-                { time: '10:00', title: 'მიკროეკონომიკის პრინციპები', professor: 'რუსუდან სირბილაძე', location: 'X კორპუსი/2 სართული/205' },
-                { time: '11:00', title: 'ინგლისური ენა B1.1', professor: 'მაია უბირია', location: 'X კორპუსი/7 სართული/716' },
-                { time: '13:00', title: 'ბიზნესის ადმინისტრირების საფუძვლები 1 (ბიზნესის გარემო)', professor: 'ქრისტინა ჯღანჯღავა', location: 'X კორპუსი/2 სართული/202' },
-                { time: '15:00', title: 'ინფორმატიკა ეკონომიკასა და ბიზნესში', professor: 'დემური სიჭინავა', location: 'X კორპუსი/6 სართული/612' },
+                { time: '10:00 - 10:50', title: 'მიკროეკონომიკის პრინციპები', professor: 'რუსუდან სირბილაძე', location: 'X კორპუსი/2 სართული/205' },
+                { time: '11:00 - 12:50', title: 'ინგლისური ენა B1.1', professor: 'მაია უბირია', location: 'X კორპუსი/7 სართული/716' },
+                { time: '13:00 - 13:50', title: 'ბიზნესის ადმინისტრირების საფუძვლები 1 (ბიზნესის გარემო)', professor: 'ქრისტინა ჯღანჯღავა', location: 'X კორპუსი/2 სართული/202' },
+                { time: '15:00 - 17:50', title: 'ინფორმატიკა ეკონომიკასა და ბიზნესში', professor: 'დემური სიჭინავა', location: 'X კორპუსი/6 სართული/612' },
             ],
             'ხუთშაბათი': [
-                { time: '10:00', title: 'მარკეტინგი 1', professor: 'ნანული ოქრუაშვილი', location: 'X კორპუსი/11 სართული/1110' },
-                { time: '11:00', title: 'ინგლისური ენა B1.1', professor: 'მაია უბირია', location: 'X კორპუსი/7 სართული/716' },
-                { time: '13:00', title: 'მიკროეკონომიკის პრინციპები', professor: 'დალი სეხნიაშვილი', location: 'X კორპუსი/10 სართული/1001' },
-                { time: '15:00', title: 'მათემატიკა ეკონომიკისა და ბიზნესისთვის 1', professor: 'არჩილ დოლიძე', location: 'X კორპუსი/9 სართული/913' },
+                { time: '10:00 - 10:50', title: 'მარკეტინგი 1', professor: 'ნანული ოქრუაშვილი', location: 'X კორპუსი/11 სართული/1110' },
+                { time: '11:00 - 12:50', title: 'ინგლისური ენა B1.1', professor: 'მაია უბირია', location: 'X კორპუსი/7 სართული/716' },
+                { time: '13:00 - 14:50', title: 'მიკროეკონომიკის პრინციპები', professor: 'დალი სეხნიაშვილი', location: 'X კორპუსი/10 სართული/1001' },
+                { time: '15:00 - 16:50', title: 'მათემატიკა ეკონომიკისა და ბიზნესისთვის 1', professor: 'არჩილ დოლიძე', location: 'X კორპუსი/9 სართული/913' },
             ],
             'შაბათი': [
-                { time: '09:00', title: 'მათემატიკა ეკონომიკისა და ბიზნესისთვის 1', professor: 'ბაკურ გულუა', location: 'X კორპუსი/9 სართული/912' },
-                { time: '11:00', title: 'ინგლისური ენა B1.1', professor: 'მაია უბირია', location: 'X კორპუსი/7 სართული/716' },
-                { time: '15:00', title: 'მარკეტინგი 1', professor: 'რუსუდან ჯაყელი', location: 'X კორპუსი/11 სართული/1103' },
+                { time: '09:00 - 10:50', title: 'მათემატიკა ეკონომიკისა და ბიზნესისთვის 1', professor: 'ბაკურ გულუა', location: 'X კორპუსი/9 სართული/912' },
+                { time: '11:00 - 12:50', title: 'ინგლისური ენა B1.1', professor: 'მაია უბირია', location: 'X კორპუსი/7 სართული/716' },
+                { time: '15:00 - 16:50', title: 'მარკეტინგი 1', professor: 'რუსუდან ჯაყელი', location: 'X კორპუსი/11 სართული/1103' },
             ],
         };
 
         const dayMapping = ['კვირა', 'ორშაბათი', 'სამშაბათი', 'ოთხშაბათი', 'ხუთშაბათი', 'პარასკევი', 'შაბათი'];
-        const days = ['ორშაბათი', 'სამშაბათი', 'ხუთშაბათი', 'შაბათი'];
+        const days = Object.keys(schedule);
         const scheduleSlides = document.getElementById('schedule-slides');
         const dayTitle = document.getElementById('day-title');
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
         const indicatorsContainer = document.getElementById('slide-indicators');
+        const countdownDisplay = document.getElementById('countdown-display');
         let currentSlideIndex = 0;
+
+        function formatTimeDifference(start, end) {
+            const startParts = start.split(':').map(Number);
+            const endParts = end.split(':').map(Number);
+            const startDate = new Date();
+            startDate.setHours(startParts[0], startParts[1], 0);
+            const endDate = new Date();
+            endDate.setHours(endParts[0], endParts[1], 0);
+            const diffMs = endDate - startDate;
+            const diffMins = Math.floor(diffMs / (1000 * 60));
+            const hours = Math.floor(diffMins / 60);
+            const minutes = diffMins % 60;
+
+            let result = '';
+            if (hours > 0) {
+                result += `${hours} სთ `;
+            }
+            result += `${minutes} წთ`;
+            return result;
+        }
 
         function renderDay(dayName) {
             const lessons = schedule[dayName];
-            scheduleSlides.innerHTML = ''; // შიგთავსის გასუფთავება
+            scheduleSlides.innerHTML = '';
             dayTitle.textContent = dayName;
 
             if (lessons && lessons.length > 0) {
-                lessons.forEach(lesson => {
+                lessons.forEach((lesson, index) => {
                     const card = document.createElement('div');
-                    card.className = 'lesson-card p-4 rounded-xl shadow-md';
+                    card.className = 'lesson-card';
+                    const [startTime, endTime] = lesson.time.split(' - ');
                     card.innerHTML = `
-                        <p class="font-semibold text-lg text-gray-900">${lesson.time}</p>
-                        <p class="text-sm text-gray-700 mt-1">${lesson.title}</p>
-                        <p class="text-xs text-gray-500 mt-2">პედაგოგი: ${lesson.professor}</p>
-                        <p class="text-xs text-gray-500">აუდიტორია: ${lesson.location}</p>
+                        <p class="text-sm text-gray-400">${startTime} - ${endTime}</p>
+                        <p class="text-xl font-bold text-white mt-1">${lesson.title}</p>
+                        <p class="text-xs text-gray-300 mt-2">პედაგოგი: ${lesson.professor}</p>
+                        <p class="text-xs text-gray-300">აუდიტორია: ${lesson.location}</p>
                     `;
                     scheduleSlides.appendChild(card);
+
+                    if (index < lessons.length - 1) {
+                        const nextLessonTime = lessons[index + 1].time.split(' - ')[0];
+                        const breakDuration = formatTimeDifference(endTime, nextLessonTime);
+                        const breakCard = document.createElement('div');
+                        breakCard.className = 'break-card';
+                        breakCard.innerHTML = `შუალედი: ${breakDuration}`;
+                        scheduleSlides.appendChild(breakCard);
+                    }
                 });
             } else {
-                scheduleSlides.innerHTML = `<p class="text-center text-gray-500 py-8">ამ დღეს ლექციები არ არის.</p>`;
+                scheduleSlides.innerHTML = `<p class="text-center text-gray-400 py-8">ამ დღეს ლექციები არ არის.</p>`;
             }
         }
 
-        // სლაიდების ინდიკატორების შექმნა
         days.forEach((day, index) => {
             const indicator = document.createElement('div');
-            indicator.classList.add('w-2', 'h-2', 'rounded-full', 'cursor-pointer', 'dot');
+            indicator.classList.add('dot');
             indicator.setAttribute('data-index', index);
             indicatorsContainer.appendChild(indicator);
         });
@@ -189,10 +255,10 @@
         function showSlide(index) {
             indicators.forEach((indicator, i) => {
                 indicator.classList.remove('active');
-                indicator.style.backgroundColor = 'var(--indicator-inactive-color)';
             });
-            indicators[index].classList.add('active');
-            indicators[index].style.backgroundColor = 'var(--indicator-active-color)';
+            if (indicators[index]) {
+                indicators[index].classList.add('active');
+            }
             currentSlideIndex = index;
             renderDay(days[index]);
         }
@@ -217,7 +283,6 @@
             });
         });
 
-        // დღევანდელი დღის პოვნა და სლაიდის ავტომატურად ჩვენება
         const today = new Date();
         const todayDayName = dayMapping[today.getDay()];
         const todayIndex = days.indexOf(todayDayName);
@@ -227,8 +292,6 @@
             showSlide(0);
         }
 
-        // უკუთვლის ლოგიკა
-        const countdownDisplay = document.getElementById('countdown-display');
         const findNextClass = () => {
             const now = new Date();
             let nextClass = null;
@@ -242,7 +305,8 @@
 
                 if (daySchedule) {
                     for (const lesson of daySchedule) {
-                        const [hours, minutes] = lesson.time.split(':').map(Number);
+                        const [startTime] = lesson.time.split(' - ');
+                        const [hours, minutes] = startTime.split(':').map(Number);
                         const lessonDate = new Date();
                         lessonDate.setDate(now.getDate() + i);
                         lessonDate.setHours(hours, minutes, 0, 0);
@@ -260,28 +324,24 @@
                 }
                 if (found) break;
             }
-
             return nextClass;
         };
 
         const updateCountdown = () => {
             const nextClass = findNextClass();
-
             if (nextClass) {
                 const now = new Date();
                 const diff = nextClass.date.getTime() - now.getTime();
-
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const daysLeft = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
+                
                 let countdownText = `${hours}სთ ${minutes}წთ `;
-                if (days > 0) {
-                    countdownText = `${days}დ ${countdownText}`;
+                if (daysLeft > 0) {
+                    countdownText = `${daysLeft}დღე ${countdownText}`;
                 }
-
-                countdownDisplay.innerHTML = `${countdownText}<br><span class="text-sm font-normal text-gray-500">(${nextClass.day} - ${nextClass.title})</span>`;
+                countdownDisplay.innerHTML = `${countdownText}<br><span class="text-sm font-normal text-gray-400">(${nextClass.day} - ${nextClass.title})</span>`;
             } else {
                 countdownDisplay.textContent = 'ამ კვირაში მეტი ლექცია არ არის.';
             }
@@ -289,8 +349,6 @@
 
         setInterval(updateCountdown, 1000);
         updateCountdown();
-
     </script>
 </body>
-
 </html>
